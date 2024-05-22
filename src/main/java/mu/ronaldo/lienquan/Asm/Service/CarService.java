@@ -63,7 +63,7 @@ public class CarService {
     private boolean isBeautifulPlate(String plate) {
         String[] parts = plate.split("-");
         String numberPart = parts[1];
-        return numberPart.chars().distinct().count() <= 6 || isConsecutive(numberPart);
+        return numberPart.chars().distinct().count() <= 2 || isConsecutive(numberPart);
     }
 
     private boolean isConsecutive(String numberPart) {
