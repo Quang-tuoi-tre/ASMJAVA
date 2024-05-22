@@ -36,7 +36,12 @@ public class BookService {
         var findBook = listBook.stream().filter(p -> p.getId() == id).findFirst().orElseThrow();
         listBook.remove(findBook);
     }
-
+    public void update(int id, Book updatedBook) {
+        var existingBook = listBook.stream().filter(p -> p.getId() == id).findFirst().orElseThrow();
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setPrice(updatedBook.getPrice());
+    }
     public List<Book> search(String key) {
         return listBook.stream().filter(p -> p.getAuthor().toLowerCase().contains(key) || p.getTitle().toLowerCase().contains(key)).toList();
     }
