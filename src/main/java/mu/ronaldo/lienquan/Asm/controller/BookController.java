@@ -46,29 +46,5 @@ public class BookController {
         bookService.update(id, updatedBook);
         return updatedBook;
     }
-    @PostMapping("/Kiem-chuoi")
-    public String CheckString(@RequestBody String str) {
-        return isStringBalanced(str) ? "Ok" : "Not Ok";
-    }
 
-    private boolean isStringBalanced(String str) {
-        Map<Character, Character> matchingBrackets = new HashMap<>();
-        matchingBrackets.put(')', '(');
-        matchingBrackets.put('}', '{');
-        matchingBrackets.put(']', '[');
-        matchingBrackets.put('>', '<');
-
-        Stack<Character> stack = new Stack<>();
-
-        for (char ch : str.toCharArray()) {
-            if (matchingBrackets.values().contains(ch)) {
-                stack.push(ch);
-            } else if (matchingBrackets.keySet().contains(ch)) {
-                if (stack.isEmpty() || stack.pop() != matchingBrackets.get(ch)) {
-                    return false;
-                }
-            }
-        }
-        return stack.isEmpty();
-    }
 }
