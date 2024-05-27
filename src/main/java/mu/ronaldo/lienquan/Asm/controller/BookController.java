@@ -16,10 +16,10 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping(value = "/")
+    /*@GetMapping(value = "/")
     public String Welcome() {
         return "Welcome back";
-    }
+    }*/
 
     @GetMapping("/books")
     public List<Book> GetAll() {
