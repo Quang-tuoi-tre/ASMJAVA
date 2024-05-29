@@ -32,4 +32,5 @@ public String create(Course course, Model model){
     courseService.add(course);
     return "redirect:/home";
 }
+
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="_layout">
+<html lang="en" layout:decorate="_layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -13,6 +13,7 @@
             margin-bottom: 15px;
         }
         .date-box {
+        margin-top:15px;
             background-color: #d9534f;
             color: white;
             text-align: center;
@@ -31,23 +32,28 @@
         .date-box .year {
             font-size: 12px;
         }
+        .hole{
+        font-weight: bold;
+        }
     </style>
 </head>
 <body>
-<section layout:fragment="content" class="container">
+<section class="container" layout:fragment="content">
     <!--<ul>
         <li th:each="course: ${courses}" th:text="${course.getStartDate()} + '-'
         + ${course.getLectureName()} + ',' + ${course.getPlace()}"></li>
     </ul>-->
-    <div th:each="course : ${courses}" class="course-card">
-        <!--<div class="date-box">
-            <div class="day" th:text="${#dates.format(course.getStartDate, 'dd')}">8</div>
-            <div class="month" th:text="${#dates.format(course.getStartDate, 'mm').toUpperCase()}">MAY</div>
-            <div class="year" th:text="${#dates.format(course.getStartDate, 'yyyy')}">2023</div>
-        </div>-->
-<!--        //Loi-->
+    <!--<div class="month" id="month"></div>
+    <div class="year" id="year"></div>-->
+    <div class="course-card" th:each="course : ${courses}">
+        <div class="date-box">
+            <div class="day"  th:text="${course.getStartDate.dayOfMonth}"></div>
+            <div class="month" th:text="${courseService.getMonthName(course.startDate.monthValue)}"></div>
+            <div class="year" th:text="${course.getStartDate.year}"></div>
+        </div>
+
         <div>
-            <div th:text="${course.getLectureName}">Nguyen Huy Cuong</div>
+            <div class="hole" th:text="${course.getLectureName}" >Nguyen Huy Cuong</div>
             <div th:text="${course.getPlace}">Dong Nai</div>
         </div>
     </div>
@@ -55,5 +61,15 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    var dateDiv = document.getElementById('day');
+
+        var dateContent = dateDiv.textContent;
+
+        var newDateContent = dateContent.replace(/-/g, '');
+
+        dateDiv.textContent = newDateContent;
+</script>
 </body>
+
 </html>

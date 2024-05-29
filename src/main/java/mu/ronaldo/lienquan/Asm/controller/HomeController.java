@@ -22,6 +22,7 @@ public class HomeController {
     @GetMapping("")
     public String index(Model model) {
         model.addAttribute("courses", courseService.GetAll());
+        model.addAttribute("courseService", courseService);
         return "home";
     }
 }

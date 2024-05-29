@@ -19,4 +19,8 @@ public class CourseService {
     public List<Course> GetAll() {
         return listCourse;
     }
+    public String getMonthName(int monthValue){
+        String[] monthNames = {"", "January", "February", "March","June","July","August","September","Octocber", "November","December" };
+        return monthNames[monthValue];
+    }
 }
