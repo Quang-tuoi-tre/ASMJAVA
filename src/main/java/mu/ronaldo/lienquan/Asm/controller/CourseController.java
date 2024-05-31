@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/course")
@@ -25,6 +26,7 @@ return "create";}
 @PostMapping("/create")
 public String create(Course course, Model model){
     LocalDate now = LocalDate.now();
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
     if (course.getStartDate().isBefore(now)) {
         model.addAttribute("error", "Start Date must be after the current date.");
         return "create";

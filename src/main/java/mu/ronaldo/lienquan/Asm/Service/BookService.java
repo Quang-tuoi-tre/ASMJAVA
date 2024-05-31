@@ -1,17 +1,17 @@
 package mu.ronaldo.lienquan.Asm.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import mu.ronaldo.lienquan.Asm.model.Book;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-import mu.ronaldo.lienquan.Asm.model.Book;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 @Service
 public class BookService {
-    private List<Book> listBook = new ArrayList<>(Arrays.asList(new Book(1, "Lập trình Windows", "Nguyễn Huy Cường", 99999), new Book(2, "Lập trình Web", "Nguyễn Huy Cường", 12345), new Book(3, "Lâp trình ứng dụng Java", "Nguyễn Huy Cường", 454534), new Book(4, "Thương mại điện tử", "Nguyễn Đình Ánh", 848593)));
+    private final List<Book> listBook = new ArrayList<>(Arrays.asList(new Book(1, "Lập trình Windows", "Nguyễn Huy Cường", 99999), new Book(2, "Lập trình Web", "Nguyễn Huy Cường", 12345), new Book(3, "Lâp trình ứng dụng Java", "Nguyễn Huy Cường", 454534), new Book(4, "Thương mại điện tử", "Nguyễn Đình Ánh", 848593)));
 
     public List<Book> getAll() {
         return listBook;
@@ -36,12 +36,14 @@ public class BookService {
         var findBook = listBook.stream().filter(p -> p.getId() == id).findFirst().orElseThrow();
         listBook.remove(findBook);
     }
+
     public void update(int id, Book updatedBook) {
         var existingBook = listBook.stream().filter(p -> p.getId() == id).findFirst().orElseThrow();
         existingBook.setTitle(updatedBook.getTitle());
         existingBook.setAuthor(updatedBook.getAuthor());
         existingBook.setPrice(updatedBook.getPrice());
     }
+
     public List<Book> search(String key) {
         return listBook.stream().filter(p -> p.getAuthor().toLowerCase().contains(key) || p.getTitle().toLowerCase().contains(key)).toList();
     }
