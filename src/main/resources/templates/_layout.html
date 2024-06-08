@@ -12,7 +12,12 @@
         <a class="navbar-brand text-light" th:href="@{/home}">Hone</a>
         <a class="navbar-brand text-light" th:href="@{/course/create}">Add Course</a> </div>
 
-</nav>
+<!--    th:action="@{/home/search}"-->
+
+    <form class="d-flex" role="search"  th:method="get">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form></nav>
 <section layout:fragment="content" class="container body-content">
 </section>
 <div class="card-footer">

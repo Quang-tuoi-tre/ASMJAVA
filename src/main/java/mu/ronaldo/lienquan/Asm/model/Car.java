@@ -1,3 +1,4 @@
+/*
 
 package mu.ronaldo.lienquan.Asm.model;
 
@@ -62,3 +63,4 @@ public class Car {
     }
 }
 
+*/

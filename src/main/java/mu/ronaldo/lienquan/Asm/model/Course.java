@@ -1,26 +1,45 @@
 package mu.ronaldo.lienquan.Asm.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+
+@Setter
+@Getter
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "course")
 public class Course {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @NotEmpty(message = "Tên trợ giảng không được để trống")
     private String lectureName;
-
+    @NotEmpty(message = "Nơi học không được để trống")
     private String place;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id")
+    private Category category;
 
-    public Course(int id, String lectureName, String place, LocalDate startDate) {
-        this.id = id;
-        this.lectureName = lectureName;
-        this.place = place;
-        this.startDate = startDate;
+
+    public Category getCategory() {
+        return category;
     }
 
-    public Course() {
+    public void setCategory(Category category) {
+        this.category = category;
     }
+
+
 
     public int getId() {
         return id;
@@ -46,11 +65,11 @@ public class Course {
         this.place = place;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 }

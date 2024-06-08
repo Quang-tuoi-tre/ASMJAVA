@@ -45,18 +45,49 @@
     </ul>-->
     <!--<div class="month" id="month"></div>
     <div class="year" id="year"></div>-->
-    <div class="course-card" th:each="course : ${courses}">
-        <div class="date-box">
-            <div class="day"  th:text="${course.getStartDate.dayOfMonth}"></div>
-            <div class="month" th:text="${courseService.getMonthName(course.startDate.monthValue)}"></div>
-            <div class="year" th:text="${course.getStartDate.year}"></div>
-        </div>
-
-        <div>
-            <div class="hole" th:text="${course.getLectureName}" >Nguyen Huy Cuong</div>
-            <div th:text="${course.getPlace}">Dong Nai</div>
-        </div>
+    <h1>Course List</h1>
+    <div>
+        <a th:href="@{/course/add}" class="btn btn-primary mb-3">Add New
+            Course</a>
     </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Lecture Name</th>
+            <th>Place</th>
+            <th>Start Date - Time</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.lectureName}"></td>
+            <td th:text="${course.place}"></td>
+            <td th:text="${course.category.name}"></td>
+            <td th:text="${course.startDate}"></td>
+
+            <td>
+                <a th:href="@{/course/edit/{id}(id=${course.id})}" class="btn
+btn-success btn-sm">Edit</a>
+                <a th:href="@{/course/delete/{id}(id=${course.id})}" class="btn
+btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+            <!-- <td>
+                 <form th:action="@{/cart/add}" method="post">
+                     <input type="number" name="quantity" min="1" value="1"
+                            class="form-control d-inline-block" style="width: 70px;">
+                     <input type="hidden" th:value="${course.id}"
+                            name="courseId"/>
+
+                     <button type="submit" class="btn btn-warning btn-sm">Add to
+                         Cart</button>
+                 </form>
+             </td>-->
+        </tr>
+        </tbody>
+    </table>
 </section>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

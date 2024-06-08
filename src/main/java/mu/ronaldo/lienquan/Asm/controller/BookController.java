@@ -1,3 +1,4 @@
+/*
 package mu.ronaldo.lienquan.Asm.controller;
 
 import mu.ronaldo.lienquan.Asm.Service.BookService;
@@ -16,10 +17,12 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    /*@GetMapping(value = "/")
+    */
+/*@GetMapping(value = "/")
     public String Welcome() {
         return "Welcome back";
-    }*/
+    }*//*
+
 
     @GetMapping("/books")
     public List<Book> GetAll() {
@@ -48,3 +51,4 @@ public class BookController {
     }
 
 }
+*/
