@@ -22,11 +22,11 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-//    @NotEmpty(message = "Tên trợ giảng không được để trống")
+    @NotEmpty(message = "Tên trợ giảng không được để trống")
     private String lectureName;
-//    @NotEmpty(message = "Nơi học không được để trống")
+    @NotEmpty(message = "Nơi học không được để trống")
     private String place;
-//    @NotEmpty(message = "Start date is required")
+    @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
 
 

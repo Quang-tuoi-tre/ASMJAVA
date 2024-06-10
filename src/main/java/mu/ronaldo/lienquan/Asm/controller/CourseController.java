@@ -38,13 +38,12 @@ public class CourseController {
     }
     // Process the form for adding a new Course
     @PostMapping("/add")
-    public String addCourse( Course Course, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("courses", Course);
-            model.addAttribute("categories", categoryService.getAllCategories());
+    public String addCourse(@Valid @ModelAttribute Course Course, BindingResult result, Model model) {
+       /*if (result.hasErrors()) {
+           model.addAttribute("categories", categoryService.getAllCategories());
 
             return "create";
-        }
+       }*/
         courseService.addCourse(Course);
         return "redirect:/course";
     }
