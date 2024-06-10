@@ -32,6 +32,9 @@ public class CourseService {
     public Optional<Course> getCourseById(Integer id) {
         return courseRepository.findById(id);
     }
+    public List<Course> findByLectureNameContaining(String lectureName) {
+        return courseRepository.findByLectureNameContaining(lectureName);
+    }
 
     // Add a new Course to the database
     public Course addCourse(Course Course) {
@@ -55,4 +58,5 @@ public class CourseService {
 
         courseRepository.deleteById(id);
     }
+
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="_layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .course-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .date-box {
+            margin-top: 15px;
+            background-color: #d9534f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            width: 70px;
+            margin-right: 15px;
+        }
+        .date-box .day {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .date-box .month,
+        .date-box .year {
+            font-size: 12px;
+        }
+        .hole {
+            font-weight: bold;
+        }
+        .action-buttons {
+            position: absolute;
+            right: 10px;
+            display: none;
+        }
+        .course-card:hover .action-buttons {
+            display: block;
+        }
+        .action-buttons button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+<section class="container" layout:fragment="content">
+    <!--<ul>
+        <li th:each="course: ${courses}" th:text="${course.getStartDate()} + '-'
+        + ${course.getLectureName()} + ',' + ${course.getPlace()}"></li>
+    </ul>-->
+    <!--<div class="month" id="month"></div>
+    <div class="year" id="year"></div>-->
+    <div class="course-card" th:each="course : ${courses}">
+        <div class="date-box">
+            <div class="month" th:text="${course.startDate.monthValue}"></div>
+            <div class="day" th:text="${course.startDate.dayOfMonth}"></div>
+        </div>
+
+        <div>
+            <div class="hole" th:text="${course.lectureName}">Nguyen Huy Cuong</div>
+            <div th:text="${course.place}">Dong Nai</div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary btn-sm">Edit</button>
+            <button class="btn btn-danger btn-sm">Delete</button>
+        </div>
+    </div>
+
+</section>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -41,16 +41,24 @@ public class CategoryController {
         categoryService.addCategory(category);
         return "redirect:/categories";
     }
-
-    // Hiển thị danh sách danh mục
-
-    /*@GetMapping("/categories/delete/{id}")
-    public String deleteCategory(@PathVariable("id") Integer id, Model model) {
+    @GetMapping("/categories/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Category category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:"
                         + id));
-        categoryService.deleteCategoryById(id);
+        model.addAttribute("category", category);
+        return "/categories/update-category";
+    }
+    // POST request to update category
+    @PostMapping("/categories/update/{id}")
+    public String updateCategory(@PathVariable("id") Integer id, @Valid Category category,
+                                 BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            category.setId(id);
+            return "/categories/update-category";
+        }
+        categoryService.updateCategory(category);
         model.addAttribute("categories", categoryService.getAllCategories());
         return "redirect:/categories";
-    }*/
+    }
 }

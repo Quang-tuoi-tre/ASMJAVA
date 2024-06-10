@@ -1,5 +1,6 @@
 package mu.ronaldo.lienquan.Asm.Service;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import mu.ronaldo.lienquan.Asm.Repository.CategoryRepository;
 import mu.ronaldo.lienquan.Asm.Repository.CourseRepository;
@@ -36,5 +37,12 @@ public class CategoryService {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");
         }
         categoryRepository.deleteById(id);
+    }
+    public void updateCategory(@NotNull Category category) {
+        Category existingCategory = categoryRepository.findById(category.getId())
+                .orElseThrow(() -> new IllegalStateException("Category with ID " +
+                        category.getId() + " does not exist."));
+        existingCategory.setName(category.getName());
+        categoryRepository.save(existingCategory);
     }
 }
