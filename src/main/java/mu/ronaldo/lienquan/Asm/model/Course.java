@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -26,10 +27,19 @@ public class Course {
     private String lectureName;
     @NotEmpty(message = "Nơi học không được để trống")
     private String place;
-    @NotNull(message = "Start date is required")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime startDate;
+    @Transient
+    @NotEmpty(message = "Start date is required")
+    private String startDateStr;
 
+    public String getStartDateStr() {
+        return startDateStr;
+    }
 
+    public void setStartDateStr(String startDateStr) {
+        this.startDateStr = startDateStr;
+    }
 
     @ManyToOne
     @JoinColumn(name="category_id")

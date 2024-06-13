@@ -49,7 +49,7 @@ public class CourseService {
         existingCourse.setLectureName(course.getLectureName());
         existingCourse.setPlace(course.getPlace());
         existingCourse.setCategory(course.getCategory());
-        existingCourse.setStartDate(course.getStartDate());
+        existingCourse.setStartDateStr(course.getStartDateStr());
         return courseRepository.save(existingCourse);
     }
     public void deleteProductById(Integer id) {

@@ -67,7 +67,7 @@
             <td th:text="${course.lectureName}"></td>
             <td th:text="${course.place}"></td>
             <td th:text="${course.category.Name}"></td>
-            <td th:text="${course.startDate}"></td>
+            <td th:text="${#temporals.format(course.startDate, 'dd/MM/yyyy HH:mm')}"></td>
 
             <td>
                 <a th:href="@{/course/edit/{id}(id=${course.id})}" class="btn

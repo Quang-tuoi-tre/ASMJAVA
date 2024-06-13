@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 
@@ -36,23 +40,46 @@ public class CourseController {
 
         return "create";
     }
-    // Process the form for adding a new Course
     @PostMapping("/add")
-    public String addCourse(@Valid @ModelAttribute Course Course, BindingResult result, Model model) {
-       /*if (result.hasErrors()) {
-           model.addAttribute("categories", categoryService.getAllCategories());
-
+    // Process the form for adding a new Course
+    public String addCourse(@Valid @ModelAttribute("course") Course course, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("courses", course);
+            model.addAttribute("categories", categoryService.getAllCategories());
             return "create";
-       }*/
-        courseService.addCourse(Course);
+        }
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime startDate = LocalDateTime.parse(course.getStartDateStr(), formatter);
+            course.setStartDate(startDate);
+        } catch (DateTimeParseException e) {
+            result.rejectValue("startDateStr", "error.course", "Invalid date format. Please use dd/MM/yyyy HH:mm.");
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "create";
+        }
+
+
+        courseService.addCourse(course);
         return "redirect:/course";
     }
 
+   /* @PostMapping("/add")
+    public String addCourse(@Valid @ModelAttribute Course Course, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+
+            return "create";
+        }
+        courseService.addCourse(Course);
+        return "redirect:/course";
+    }*/
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Integer id, Model model) {
         Course course = courseService.getCourseById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
+        course.setStartDateStr(course.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         model.addAttribute("course", course);
         model.addAttribute("categories", categoryService.getAllCategories());
         return "update";
@@ -64,11 +91,23 @@ public class CourseController {
                                 Model model) {
         if (result.hasErrors()) {
             course.setId(id);
-            model.addAttribute("courses", course);
+            model.addAttribute("course", course);
             model.addAttribute("categories", categoryService.getAllCategories());
-// set id to keep it in the form in case of errors
             return "update";
         }
+
+        // Convert startDateStr to LocalDateTime and set it to startDate
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime startDate = LocalDateTime.parse(course.getStartDateStr(), formatter);
+            course.setStartDate(startDate);
+        } catch (DateTimeParseException e) {
+            result.addError(new FieldError("course", "startDateStr", "Invalid date format"));
+            model.addAttribute("course", course);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "update";
+        }
+
         courseService.updateCourse(course);
         return "redirect:/course";
     }
