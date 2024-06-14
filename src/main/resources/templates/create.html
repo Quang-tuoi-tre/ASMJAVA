@@ -31,6 +31,7 @@
         <div class="form-group">
             <label for="category">Category:</label>
             <select class="form-control" th:field="*{category}" id="category" required>
+                <option value="">Choose your Category</option>
                 <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.Name}"></option>
             </select>
             <div class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>

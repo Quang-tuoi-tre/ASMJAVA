@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 //@RequestMapping("/home")
@@ -21,8 +23,15 @@ public class HomeController {
     private CategoryService categoryService;
     @GetMapping("/home")
     public String showCourseLists(Model model) {
+        List<Course> allCourses = courseService.getAllCourse();
 
-        model.addAttribute("courses", courseService.getAllCourse());
+        // Lọc các khóa học sắp tới (startDater3 sau thời điểm hiện tại)
+        LocalDateTime now = LocalDateTime.now();
+        List<Course> upcomingCourses = allCourses.stream()
+                .filter(course -> course.getStartDate().isAfter(now))
+                .collect(Collectors.toList());
+
+        model.addAttribute("courses", upcomingCourses);
         return "Course-list";
     }
     @RequestMapping(value = "/search")

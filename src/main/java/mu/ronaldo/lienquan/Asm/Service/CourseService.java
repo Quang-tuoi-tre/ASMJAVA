@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import java.time.LocalDate;
@@ -21,7 +22,6 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Transactional
 public class CourseService {
-
     private final CourseRepository courseRepository;
     public List<Course> getAllCourse() {
         List<Course> courseList = courseRepository.findAll();
@@ -34,6 +34,9 @@ public class CourseService {
     }
     public List<Course> findByLectureNameContaining(String lectureName) {
         return courseRepository.findByLectureNameContaining(lectureName);
+    }
+    public List<Course> getUpcomingCourses() {
+        return courseRepository.findByStartDateAfter(LocalDateTime.now());
     }
 
     // Add a new Course to the database
@@ -58,5 +61,6 @@ public class CourseService {
 
         courseRepository.deleteById(id);
     }
+
 
 }

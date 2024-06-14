@@ -16,25 +16,30 @@
             <label for="lectureName" class="form-label">Lecture Name:</label>
             <input type="text" th:field="*{lectureName}" class="form-control" id="lectureName"
                    required>
-
+            <div class="text-danger" th:if="${#fields.hasErrors('lectureName')}" th:errors="*{lectureName}"></div>
         </div>
         <div class="mb-3">
             <label for="place" class="form-label">Place:</label>
             <input type="text" th:field="*{place}" class="form-control" id="place"
                    required>
+            <div class="text-danger" th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div>
+
         </div>
         <div class="mb-3">
             <label for="startDate" class="form-label">Start Date (dd/MM/yyyy HH:mm):</label>
             <input class="form-control" type="text" th:field="*{startDateStr}" id="startDate" placeholder="dd/MM/yyyy HH:mm" required>
-<!--            <div class="text-danger" th:if="${#fields.hasErrors('startDateStr')}" th:errors="*{startDateStr}"></div>-->
+            <div class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('startDateStr')}" th:errors="*{startDateStr}"></div>
         </div>
         <div class="mb-3">
             <label for="category" class="form-label">Category:</label>
             <select th:field="*{category}" class="form-control" id="category">
+                <option value="">Choose your Category</option>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}" th:text="${category.name}" th:selected="${category.id ==
 course.category.id}"></option>
             </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
         </div>
 
 

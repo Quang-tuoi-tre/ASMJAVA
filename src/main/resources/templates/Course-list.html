@@ -57,7 +57,7 @@
     <div class="year" id="year"></div>-->
     <div class="course-card" th:each="course : ${courses}">
         <div class="date-box">
-            <div class="month" th:text="${course.startDate.monthValue}"></div>
+            <div class="day" th:text="${course.startDate.monthValue}"></div>
             <div class="day" th:text="${course.startDate.dayOfMonth}"></div>
         </div>
 
@@ -67,8 +67,10 @@
         </div>
 
         <div class="action-buttons">
-            <button class="btn btn-primary btn-sm">Edit</button>
-            <button class="btn btn-danger btn-sm">Delete</button>
+            <a th:href="@{/course/edit/{id}(id=${course.id})}" class="btn
+btn-secondary btn-lg">Edit</a>
+            <a th:href="@{/course/delete/{id}(id=${course.id})}" class="btn
+btn-danger btn-lg" onclick="return confirm('Are you sure?')">Delete</a>
         </div>
     </div>
 

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mu.ronaldo.lienquan.Asm.Service.CategoryService;
 import mu.ronaldo.lienquan.Asm.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,4 +62,8 @@ public class CategoryController {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "redirect:/categories";
     }
+    /*@GetMapping("/encode/{pass}")
+    public String encode(@PathVariable String pass){
+        return new BCryptPasswordEncoder().encode(pass);
+    }*/
 }

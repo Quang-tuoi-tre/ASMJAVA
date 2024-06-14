@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -32,6 +33,20 @@ public class Course {
     @Transient
     @NotEmpty(message = "Start date is required")
     private String startDateStr;
+
+    @OneToMany(mappedBy = "course")
+    private List<Attendance> attendees;
+
+   /* @OneToOne
+    @JoinColumn(name = "lecture_id")
+    private User lecture;
+    public List<Attendance> getAttendees() {
+        return attendees;
+    }*/
+
+   /* public void setAttendees(List<Attendance> attendees) {
+        this.attendees = attendees;
+    }*/
 
     public String getStartDateStr() {
         return startDateStr;
