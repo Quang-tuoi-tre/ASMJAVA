@@ -1,9 +1,11 @@
 package mu.ronaldo.lienquan.Asm.controller;
 
 import jakarta.validation.Valid;
+import mu.ronaldo.lienquan.Asm.Repository.UserRepository;
 import mu.ronaldo.lienquan.Asm.Service.CategoryService;
 import mu.ronaldo.lienquan.Asm.Service.CourseService;
 import mu.ronaldo.lienquan.Asm.model.Course;
+import mu.ronaldo.lienquan.Asm.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -22,11 +24,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/course")
 public class CourseController {
- @Autowired
+    @Autowired
+    private  UserRepository userRepository;
+
+    @Autowired
 
     private CourseService courseService;
     @Autowired
     private CategoryService categoryService;
+
+
+
     @GetMapping
     public String showCourseList(Model model) {
 
@@ -37,15 +45,18 @@ public class CourseController {
     public String showAddForm(Model model) {
         model.addAttribute("course", new Course());
         model.addAttribute("categories", categoryService.getAllCategories());
-
+        List<User> lecturers = userRepository.findAll();
+        model.addAttribute("lecturers", lecturers);
         return "create";
     }
     @PostMapping("/add")
     // Process the form for adding a new Course
     public String addCourse(@Valid @ModelAttribute("course") Course course, BindingResult result, Model model) {
+        List<User> lecturers = userRepository.findAll();
         if (result.hasErrors()) {
             model.addAttribute("courses", course);
             model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("lecturers", lecturers);
             return "create";
         }
 
@@ -61,7 +72,7 @@ public class CourseController {
 
 
         courseService.addCourse(course);
-        return "redirect:/course";
+        return "redirect:/home";
     }
 
    /* @PostMapping("/add")
@@ -80,6 +91,8 @@ public class CourseController {
         Course course = courseService.getCourseById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
         course.setStartDateStr(course.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        List<User> lecturers = userRepository.findAll();
+        model.addAttribute("lecturers", lecturers);
         model.addAttribute("course", course);
         model.addAttribute("categories", categoryService.getAllCategories());
         return "update";
@@ -89,10 +102,13 @@ public class CourseController {
     public String updateProduct(@PathVariable Integer id, @Valid Course course,
                                 BindingResult result,
                                 Model model) {
+        List<User> lecturers = userRepository.findAll();
+
         if (result.hasErrors()) {
             course.setId(id);
             model.addAttribute("course", course);
             model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("lecturers", lecturers);
             return "update";
         }
 
@@ -109,13 +125,13 @@ public class CourseController {
         }
 
         courseService.updateCourse(course);
-        return "redirect:/course";
+        return "redirect:/home";
     }
     // Handle request to delete a product
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Integer id) {
         courseService.deleteProductById(id);
-        return "redirect:/course";
+        return "redirect:/home";
     }
 
 }

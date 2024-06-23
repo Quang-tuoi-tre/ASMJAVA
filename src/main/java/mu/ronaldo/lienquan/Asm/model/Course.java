@@ -24,29 +24,18 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotEmpty(message = "Tên trợ giảng không được để trống")
-    private String lectureName;
+
+
+
     @NotEmpty(message = "Nơi học không được để trống")
     private String place;
+
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime startDate;
+
     @Transient
     @NotEmpty(message = "Start date is required")
     private String startDateStr;
-
-    @OneToMany(mappedBy = "course")
-    private List<Attendance> attendees;
-
-   /* @OneToOne
-    @JoinColumn(name = "lecture_id")
-    private User lecture;
-    public List<Attendance> getAttendees() {
-        return attendees;
-    }*/
-
-   /* public void setAttendees(List<Attendance> attendees) {
-        this.attendees = attendees;
-    }*/
 
     public String getStartDateStr() {
         return startDateStr;
@@ -57,11 +46,26 @@ public class Course {
     }
 
     @ManyToOne
-    @JoinColumn(name="category_id")
+    @JoinColumn(name = "category_id")
     @NotNull(message = "Category is required")
     @Valid
     private Category category;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Attendance> attendances;
+
+    @ManyToOne
+    @JoinColumn(name = "lecture_id")
+    @NotNull(message = "Lecture ID is required")
+    private User lecture;
+
+    public @NotNull(message = "Lecture ID is required") User getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(@NotNull(message = "Lecture ID is required") User lecture) {
+        this.lecture = lecture;
+    }
 
     public int getId() {
         return id;
@@ -71,13 +75,8 @@ public class Course {
         this.id = id;
     }
 
-    public @NotEmpty(message = "Tên trợ giảng không được để trống") String getLectureName() {
-        return lectureName;
-    }
 
-    public void setLectureName(@NotEmpty(message = "Tên trợ giảng không được để trống") String lectureName) {
-        this.lectureName = lectureName;
-    }
+
     public LocalDateTime getStartDate() {
         return startDate;
     }
@@ -94,8 +93,6 @@ public class Course {
         this.place = place;
     }
 
-
-
     public @NotNull(message = "Category is required") @Valid Category getCategory() {
         return category;
     }
@@ -103,7 +100,12 @@ public class Course {
     public void setCategory(@NotNull(message = "Category is required") @Valid Category category) {
         this.category = category;
     }
+
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
+    }
 }
-
-
-

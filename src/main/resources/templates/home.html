@@ -64,7 +64,7 @@
         <tbody>
         <tr th:each="course : ${courses}">
             <td th:text="${course.id}"></td>
-            <td th:text="${course.lectureName}"></td>
+            <td th:text="${course.lecture.name}"></td>
             <td th:text="${course.place}"></td>
             <td th:text="${course.category.Name}"></td>
             <td th:text="${#temporals.format(course.startDate, 'dd/MM/yyyy HH:mm')}"></td>

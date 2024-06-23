@@ -1,31 +1,40 @@
 package mu.ronaldo.lienquan.Asm.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class User {
+import java.util.List;
 
+@Setter
+@Getter
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "user")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "Username is required")
-    private String username;
+    @NotEmpty(message = "Username is required")
+    private String userName;
 
-    @NotBlank(message = "Password is required")
+    @NotEmpty(message = "Name is required")
+    private String name;
+
+    @NotEmpty(message = "Email is required")
+    private String email;
+
+    @NotEmpty(message = "Password is required")
     private String password;
+
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Course> courses;
 
     public int getId() {
         return id;
@@ -35,22 +44,43 @@ public class User {
         this.id = id;
     }
 
-    public @NotBlank(message = "Username is required") String getUsername() {
-        return username;
+    public List<Course> getCourses() {
+        return courses;
     }
 
-    public void setUsername(@NotBlank(message = "Username is required") String username) {
-        this.username = username;
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
-    public @NotBlank(message = "Password is required") String getPassword() {
+    public @NotEmpty(message = "Username is required") String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(@NotEmpty(message = "Username is required") String userName) {
+        this.userName = userName;
+    }
+
+    public @NotEmpty(message = "Name is required") String getName() {
+        return name;
+    }
+
+    public void setName(@NotEmpty(message = "Name is required") String name) {
+        this.name = name;
+    }
+
+    public @NotEmpty(message = "Email is required") String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@NotEmpty(message = "Email is required") String email) {
+        this.email = email;
+    }
+
+    public @NotEmpty(message = "Password is required") String getPassword() {
         return password;
     }
 
-    public void setPassword(@NotBlank(message = "Password is required") String password) {
+    public void setPassword(@NotEmpty(message = "Password is required") String password) {
         this.password = password;
     }
-
-    // Getters, setters, and other methods omitted for brevity
 }
-

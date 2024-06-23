@@ -13,10 +13,13 @@
     <form th:action="@{/course/update/{id}(id=${course.id})}"
           th:object="${course}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         <div class="mb-3">
-            <label for="lectureName" class="form-label">Lecture Name:</label>
-            <input type="text" th:field="*{lectureName}" class="form-control" id="lectureName"
-                   required>
-            <div class="text-danger" th:if="${#fields.hasErrors('lectureName')}" th:errors="*{lectureName}"></div>
+            <label for="lecture" class="form-label">Lecture:</label>
+            <select th:field="*{lecture}" class="form-control" id="lecture">
+                <option value="">Choose your Lecture</option>
+                <option th:each="lecture : ${lecturers}"
+                        th:value="${lecture.id}" th:text="${lecture.name}" th:selected="${lecture.id == course.lecture.id}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('lecture')}" th:errors="*{lecture}"></div>
         </div>
         <div class="mb-3">
             <label for="place" class="form-label">Place:</label>
@@ -42,9 +45,8 @@ course.category.id}"></option>
             <div class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
         </div>
 
-
         <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a th:href="@{/course}" class="btn btn-link">Cancel</a>
+        <a th:href="@{/home}" class="btn btn-link">Cancel</a>
     </form>
 </section>
 <script

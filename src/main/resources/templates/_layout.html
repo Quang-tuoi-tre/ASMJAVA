@@ -11,8 +11,9 @@
     <div class="">
         <a class="navbar-brand text-light" th:href="@{/home}">Home</a>
         <a class="navbar-brand text-light" th:href="@{/course/add}">Add Course</a> </div>
+    <a class="navbar-brand text-light" th:href="@{/register}">Register</a> </div>
 
-<!--    th:action="@{/home/search}"-->
+    <!--    th:action="@{/home/search}"-->
 
     <form class="d-flex" role="search" th:action="@{/search}" th:method="get">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">

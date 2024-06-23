@@ -37,13 +37,24 @@ public class HomeController {
     @RequestMapping(value = "/search")
     public String listCourses(@RequestParam(name = "search", required = false) String search, Model model) {
         List<Course> courses;
+        LocalDateTime now = LocalDateTime.now();
+
         if (search != null && !search.isEmpty()) {
-            courses = courseService.findByLectureNameContaining(search);
+            // Lấy các khóa học có tên lecture chứa từ khóa tìm kiếm
+            courses = courseService.findByLectureNameContaining(search)
+                    .stream()
+                    .filter(course -> course.getStartDate().isAfter(now)) // Lọc các khóa học sắp tới
+                    .collect(Collectors.toList());
         } else {
-            courses = courseService.getAllCourse();
+            // Lấy tất cả các khóa học và lọc các khóa học sắp tới
+            courses = courseService.getAllCourse()
+                    .stream()
+                    .filter(course -> course.getStartDate().isAfter(now)) // Lọc các khóa học sắp tới
+                    .collect(Collectors.toList());
         }
+
         model.addAttribute("courses", courses);
-        return "Course-list"; // Tên view của trang chủ
+        return "Course-list"; // Tên view của trang hiển thị danh sách khóa học
     }
 }
 

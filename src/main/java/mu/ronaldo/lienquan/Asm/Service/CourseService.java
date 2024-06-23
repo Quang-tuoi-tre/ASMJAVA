@@ -3,7 +3,9 @@ package mu.ronaldo.lienquan.Asm.Service;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import mu.ronaldo.lienquan.Asm.Repository.CourseRepository;
+import mu.ronaldo.lienquan.Asm.Repository.UserRepository;
 import mu.ronaldo.lienquan.Asm.model.Course;
+import mu.ronaldo.lienquan.Asm.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +25,8 @@ import java.time.LocalDate;
 @Transactional
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository; // Add the UserRepository
+
     public List<Course> getAllCourse() {
         List<Course> courseList = courseRepository.findAll();
         return courseList;
@@ -49,11 +53,14 @@ public class CourseService {
                 .orElseThrow(() -> new IllegalStateException("Course with ID " +
                         course.getId() + " does not exist."));
 
-        existingCourse.setLectureName(course.getLectureName());
         existingCourse.setPlace(course.getPlace());
         existingCourse.setCategory(course.getCategory());
         existingCourse.setStartDateStr(course.getStartDateStr());
-        return courseRepository.save(existingCourse);
+        User lecture = userRepository.findById(course.getLecture().getId())
+                .orElseThrow(() -> new IllegalStateException("Lecture with ID " +
+                        course.getLecture().getId() + " does not exist."));
+        existingCourse.setLecture(lecture);
+        return courseRepository.save(course);
     }
     public void deleteProductById(Integer id) {
         Course product = courseRepository.findById(id)
