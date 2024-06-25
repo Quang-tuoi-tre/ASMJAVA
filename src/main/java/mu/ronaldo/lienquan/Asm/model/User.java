@@ -1,47 +1,74 @@
 package mu.ronaldo.lienquan.Asm.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.*;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Setter
 @Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    @NotEmpty(message = "Username is required")
-    private String userName;
+    @NotBlank(message = "Username is required")
+    @Size(min = 1, max = 50, message = "Username must be between 1 and 50 characters")
+    @Column(name = "username", length = 50, unique = true)
+    private String username;
 
-    @NotEmpty(message = "Name is required")
+    @NotBlank(message = "Name is required")
+    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    @Column(name = "name", length = 50, unique = true)
     private String name;
 
-    @NotEmpty(message = "Email is required")
+    @NotBlank(message = "Password is required")
+    @Column(name = "password", length = 250)
+    private String password;
+
+    @NotBlank(message = "Email is required")
+    @Size(min = 1, max = 50, message = "Email must be between 1 and 50 characters")
+    @Email
+    @Column(name = "email", length = 50, unique = true)
     private String email;
 
-    @NotEmpty(message = "Password is required")
-    private String password;
+    @Column(name = "phone", length = 10, unique = true)
+    @Length(min = 10, max = 10, message = "Phone must be 10 characters")
+    @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
+    private String phone;
+
+    @Column(name = "provider", length = 50)
+    private String provider;
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Course> courses;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Role> userRoles = this.getRoles();
+        return userRoles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
     }
 
     public List<Course> getCourses() {
@@ -52,35 +79,50 @@ public class User {
         this.courses = courses;
     }
 
-    public @NotEmpty(message = "Username is required") String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(@NotEmpty(message = "Username is required") String userName) {
-        this.userName = userName;
-    }
-
-    public @NotEmpty(message = "Name is required") String getName() {
+    public @NotBlank(message = "Name is required") @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters") String getName() {
         return name;
     }
 
-    public void setName(@NotEmpty(message = "Name is required") String name) {
+    public void setName(@NotBlank(message = "Name is required") @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters") String name) {
         this.name = name;
     }
 
-    public @NotEmpty(message = "Email is required") String getEmail() {
-        return email;
-    }
-
-    public void setEmail(@NotEmpty(message = "Email is required") String email) {
-        this.email = email;
-    }
-
-    public @NotEmpty(message = "Password is required") String getPassword() {
+    @Override
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(@NotEmpty(message = "Password is required") String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
+

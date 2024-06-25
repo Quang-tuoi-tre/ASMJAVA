@@ -34,7 +34,7 @@ public class HomeController {
         model.addAttribute("courses", upcomingCourses);
         return "Course-list";
     }
-    @RequestMapping(value = "/search")
+   /* @RequestMapping(value = "/search")
     public String listCourses(@RequestParam(name = "search", required = false) String search, Model model) {
         List<Course> courses;
         LocalDateTime now = LocalDateTime.now();
@@ -55,7 +55,7 @@ public class HomeController {
 
         model.addAttribute("courses", courses);
         return "Course-list"; // Tên view của trang hiển thị danh sách khóa học
-    }
+    }*/
 }
 
 //    @GetMapping("")

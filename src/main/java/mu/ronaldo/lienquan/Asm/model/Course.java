@@ -23,7 +23,7 @@ import java.util.List;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
 
 
@@ -51,12 +51,10 @@ public class Course {
     @Valid
     private Category category;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Attendance> attendances;
 
-    @ManyToOne
-    @JoinColumn(name = "lecture_id")
-    @NotNull(message = "Lecture ID is required")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id" )
     private User lecture;
 
     public @NotNull(message = "Lecture ID is required") User getLecture() {
@@ -67,11 +65,11 @@ public class Course {
         this.lecture = lecture;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -101,11 +99,7 @@ public class Course {
         this.category = category;
     }
 
-    public List<Attendance> getAttendances() {
-        return attendances;
-    }
 
-    public void setAttendances(List<Attendance> attendances) {
-        this.attendances = attendances;
-    }
+
+
 }

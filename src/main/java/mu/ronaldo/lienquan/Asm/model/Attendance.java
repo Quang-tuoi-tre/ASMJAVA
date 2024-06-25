@@ -1,3 +1,4 @@
+/*
 package mu.ronaldo.lienquan.Asm.model;
 
 
@@ -31,3 +32,4 @@ public class Attendance {
 
 
 }
+*/

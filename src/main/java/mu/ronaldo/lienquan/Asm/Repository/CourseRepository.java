@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Integer>{
-    List<Course> findByLectureNameContaining(String lectureName);
+public interface CourseRepository extends JpaRepository<Course, Long>{
+//    List<Course> findByLectureNameContaining(String lectureName);
     List<Course> findByStartDateAfter(LocalDateTime startDate);
 /*Cannot resolve symbol 'LocalDateTime'
     Lỗi trong CourseRepository*/

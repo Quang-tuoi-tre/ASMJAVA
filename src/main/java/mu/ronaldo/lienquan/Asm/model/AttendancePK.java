@@ -1,3 +1,4 @@
+/*
 package mu.ronaldo.lienquan.Asm.model;
 
 import jakarta.persistence.Embeddable;
@@ -34,4 +35,4 @@ public class AttendancePK implements Serializable {
     public int hashCode() {
         return Objects.hash(course, attendee);
     }
-}
+}*/

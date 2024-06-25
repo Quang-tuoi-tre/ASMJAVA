@@ -28,17 +28,16 @@ public class CourseService {
     private final UserRepository userRepository; // Add the UserRepository
 
     public List<Course> getAllCourse() {
-        List<Course> courseList = courseRepository.findAll();
-        return courseList;
+        return courseRepository.findAll();
     }
 
     // Retrieve a Course by its id
-    public Optional<Course> getCourseById(Integer id) {
+    public Optional<Course> getCourseById(Long id) {
         return courseRepository.findById(id);
-    }
+    }/*
     public List<Course> findByLectureNameContaining(String lectureName) {
         return courseRepository.findByLectureNameContaining(lectureName);
-    }
+    }*/
     public List<Course> getUpcomingCourses() {
         return courseRepository.findByStartDateAfter(LocalDateTime.now());
     }
@@ -56,13 +55,13 @@ public class CourseService {
         existingCourse.setPlace(course.getPlace());
         existingCourse.setCategory(course.getCategory());
         existingCourse.setStartDateStr(course.getStartDateStr());
-        User lecture = userRepository.findById(course.getLecture().getId())
+        /*User lecture = userRepository.findById(course.getLecture().getId())
                 .orElseThrow(() -> new IllegalStateException("Lecture with ID " +
                         course.getLecture().getId() + " does not exist."));
-        existingCourse.setLecture(lecture);
+        existingCourse.setLecture(lecture);*/
         return courseRepository.save(course);
     }
-    public void deleteProductById(Integer id) {
+    public void deleteProductById(Long id) {
         Course product = courseRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Product with ID " + id + " does not exist."));
 

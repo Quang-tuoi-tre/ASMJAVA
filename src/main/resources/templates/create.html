@@ -12,14 +12,7 @@
 <body>
 <section layout:fragment="content" class="container body-content">
     <form th:action="@{/course/add}" th:object="${course}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-        <div class="form-group">
-            <label for="lectureName">Lecture Name:</label>
-            <select class="form-control" th:field="*{lecture}" id="lectureName" required>
-                <option value="">Choose Lecture</option>
-                <option th:each="lecturer : ${lecturers}" th:value="${lecturer.id}" th:text="${lecturer.name}"></option>
-            </select>
-            <div class="text-danger" th:if="${#fields.hasErrors('lecture')}" th:errors="*{lecture}"></div>
-        </div>
+
         <div class="form-group">
             <label for="place">Place:</label>
             <input class="form-control" type="text" th:field="*{place}" id="place" placeholder="Place" required>
